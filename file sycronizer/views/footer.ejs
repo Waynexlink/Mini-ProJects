@@ -1,0 +1,46 @@
+<div class="container">
+  <p>the app stores file and send them to your mail in a year time</p>
+</div>
+<script>
+  document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+    e.preventDefault(); // Prevent default form submission
+
+    const formData = new FormData(e.target);
+
+    try {
+      const response = await fetch('/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      console.log("Server response status:", response.status);
+
+      const newFile = await response.json();
+      console.log("Server Response JSON:", newFile);
+
+      // Debug check
+      if (!newFile || !newFile.fileName || !newFile.fileType || !newFile.size) {
+        throw new Error("Invalid response received");
+      }
+
+      const filesContainer = document.getElementById('filesContainer');
+      filesContainer.insertAdjacentHTML('beforeend', `
+        <div class="movements__type movements__type--deposit">
+          ${newFile.fileName || "Unknown"}
+        </div>
+        <div class="movements__date">
+          ${newFile.fileType || "Unknown"}
+        </div>
+        <div class="movements__value">
+          ${(newFile.size / 1000).toFixed(2)} KB
+        </div>
+      `);
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  });
+</script>
+
+
+  </body>
+</html>

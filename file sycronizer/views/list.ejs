@@ -1,0 +1,15 @@
+<%- include('header') %>
+<h3>your files</h3>
+<div id="filesContainer">
+  <% if (allFiles.length > 0) { %> <% allFiles.forEach(element => { %>
+  <div class="movements__type movements__type--deposit">
+    <%=element.fileName %>
+  </div>
+  <div class="movements__date"><%=element.fileType %></div>
+  <div class="movements__value"><%=(element.size/1000).toFixed(2) %>MB</div>
+  <% }) %> <% }else{%>
+  <p>no files uploaded yet</p>
+  <%} %>
+</div>
+<h1>courtesy wayne</h1>
+<%- include('footer') %>
